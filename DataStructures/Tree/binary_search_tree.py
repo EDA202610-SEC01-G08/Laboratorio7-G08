@@ -25,6 +25,25 @@ def insert_node(node, key, value):
 
 def size(node):
     return node.get("size", 0)
+
+def get(my_bst, key):
+    """
+    Busca un nodo en el árbol binario por su llave y devuelve su valor. Si la llave no existe, devuelve None.
+    """
+    return get_node(my_bst["root"], key)
+
+def get_node(root, key):
+    if root is None:
+        return None
+    
+    if key < root["key"]:
+        return get_node(root["left"], key)
+    elif key > root["key"]:
+        return get_node(root["right"], key)
+    else:
+        return root["value"]
+
+
     
     
     
