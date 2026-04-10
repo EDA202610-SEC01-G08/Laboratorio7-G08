@@ -27,12 +27,13 @@
 import os
 import csv
 import datetime
-from DataStructures.Tree import binary_search_tree as bst
-from DataStructures.ArrayList import arraylist as al
 
 # TODO Realice la importación del Árbol Binario Ordenado
+from DataStructures.Tree import binary_search_tree as bst
 # TODO Realice la importación de ArrayList (al) como estructura de datos auxiliar para sus requerimientos
-# TODO Realice la importación de LinearProbing (lp) como estructura de datos auxiliar para sus requerimientos
+from DataStructures.List import array_list as al
+# TODO Realice la importación de LinearProbing (lp) como estructura de datos auxiliar pa addra sus requerimientos
+from DataStructures.List import linear_probing as lp
 
 
 data_dir = os.path.dirname(os.path.realpath('__file__')) + '/Data/'
