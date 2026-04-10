@@ -6,6 +6,27 @@ def put(my_bst, key, value):
     """
     Agrega un nuevo nodo al árbol binario. Si la llave ya existe, se actualiza el valor del nodo.
     """
+    my_bst["root"] = insert_node(my_bst["root"], key, value)
+    return my_bst
+    
+def insert_node(node, key, value):
+    if node is None:
+        return bst_node.new_node(key, value)
+    
+    if key < node["key"]:
+        node["left"] = insert_node(node["left"], key, value)
+    elif key > node["key"]:
+        node["right"] = insert_node(node["right"], key, value)
+    else:
+        node["value"] = value
+    
+    node["size"] = 1 + size(node["left"]) + size(node["right"])
+    return node
+
+def size(node):
+    if node is None:
+        return 0
+    return node["size"]
     
     
     
