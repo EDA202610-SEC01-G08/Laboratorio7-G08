@@ -1,4 +1,4 @@
-import bst_node as bst_node
+from DataStructures.Tree import bst_node
 def new_map():
     return {"root": None}
 
@@ -24,9 +24,7 @@ def insert_node(node, key, value):
     return node
 
 def size(node):
-    if node is None:
-        return 0
-    return node["size"]
+    return node.get("size", 0)
     
     
     
