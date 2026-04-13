@@ -28,7 +28,7 @@ def size(node):
 
 def get(my_bst, key):
     """
-    Busca un nodo en el árbol binario por su llave y devuelve su valor, si la llave no existe, devuelve None.
+    Busca un nodo en el árbol binario por su llave y devuelve su valor. Si la llave no existe, devuelve None.
     """
     return get_node(my_bst["root"], key)
 
