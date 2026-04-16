@@ -242,7 +242,7 @@ def keys_range(node, minimo, maximo, lista):
         
 def values(tree,minimo,maximo):
     lista = slt.new_list()
-    keys_range(tree["root"],minimo,maximo, lista)
+    values_range(tree["root"],minimo,maximo, lista)
     return lista
 
 def values_range(node, minimo, maximo, lista):

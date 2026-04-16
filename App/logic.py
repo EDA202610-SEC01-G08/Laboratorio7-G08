@@ -33,7 +33,8 @@ from DataStructures.Tree import binary_search_tree as bst
 # TODO Realice la importación de ArrayList (al) como estructura de datos auxiliar para sus requerimientos
 from DataStructures.List import array_list as al
 # TODO Realice la importación de LinearProbing (lp) como estructura de datos auxiliar pa addGit ra sus requerimientos
-from DataStructures.List import linear_probing as lp
+from DataStructures.Map import map_linear_probing as lp
+from DataStructures.List import single_linked_list as slt
 
 
 data_dir = os.path.dirname(os.path.realpath('__file__')) + '/Data/'
@@ -55,7 +56,7 @@ def new_logic():
 
     analyzer['crimes'] = al.new_list()
     # TODO completar la creación del mapa ordenado
-    analyzer['dateIndex'] = None
+    analyzer['dateIndex'] = bst.new_map()
     
     return analyzer
 
@@ -187,7 +188,7 @@ def min_key(analyzer):
     Llave mas pequena
     """
     # TODO Completar la función de consulta de la llave mínima
-    return bst.min_key(analyzer['dateIndex'])
+    return bst.get_min(analyzer['dateIndex'])
 
 
 def max_key(analyzer):
@@ -195,7 +196,7 @@ def max_key(analyzer):
     Llave mas grande
     """
     # TODO Completar la función de consulta de la llave máxima
-    return bst.max_key(analyzer['dateIndex'])
+    return bst.get_max(analyzer['dateIndex'])
 
 
 def get_crimes_by_range(analyzer, initialDate, finalDate):
@@ -203,11 +204,17 @@ def get_crimes_by_range(analyzer, initialDate, finalDate):
     Retorna el numero de crimenes en un rago de fechas.
     """
     # TODO Completar la función de consulta de crimenes por rango de fechas
-    lst= bst.values(bst.keys(analyzer['dateIndex'], initialDate, finalDate), analyzer['dateIndex'])
-    total=0
-    for crime in range(1, al.size(lst)+1):
-        datentry= al.get_element(lst, crime)
-        total+= al.size(datentry['lstcrimes'])
+    initialDate = datetime.datetime.strptime(initialDate.strip(), '%Y-%m-%d').date()
+    finalDate = datetime.datetime.strptime(finalDate.strip(), '%Y-%m-%d').date()
+    lst = bst.keys(analyzer['dateIndex'], initialDate, finalDate)
+    total = 0
+    node = lst['first']
+    while node is not None:
+        date = node['info']
+        datentry = bst.get(analyzer['dateIndex'], date)
+        total += al.size(datentry['lstcrimes'])
+        node = node['next']
+
     return total
 
 
@@ -217,8 +224,9 @@ def get_crimes_by_range_code(analyzer, initialDate, offensecode):
     de un tipo especifico.
     """
     # TODO Completar la función de consulta de crimenes por tipo de crimen en una fecha
-    entry= bst.get(analyzer['dateIndex'], initialDate)
-    if entry is not None:
+    initialDate = datetime.datetime.strptime(initialDate.strip(), '%Y-%m-%d').date()
+    entry = bst.get(analyzer['dateIndex'], initialDate)
+    if entry is None:
         return 0 
     offentry = lp.get(entry['offenseIndex'], offensecode)
     if offentry is None:
