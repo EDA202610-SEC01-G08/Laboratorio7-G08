@@ -240,7 +240,7 @@ def height(tree):
 
 def height_tree(node):
     if node is None:
-        return 0
+        return -1
     left = height_tree(node["left"])
     right = height_tree(node["right"])
     return 1 + max(left, right)
