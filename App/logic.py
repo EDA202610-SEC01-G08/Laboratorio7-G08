@@ -32,13 +32,9 @@ import datetime
 from DataStructures.Tree import binary_search_tree as bst
 # TODO Realice la importación de ArrayList (al) como estructura de datos auxiliar para sus requerimientos
 from DataStructures.List import array_list as al
-<<<<<<< HEAD
-# TODO Realice la importación de LinearProbing (lp) como estructura de datos auxiliar pa addra sus requerimientos
-from DataStructures.Map import map_linear_probing as lp
-=======
 # TODO Realice la importación de LinearProbing (lp) como estructura de datos auxiliar pa addGit ra sus requerimientos
-from DataStructures.List import linear_probing as lp
->>>>>>> 678782149b5c0d3e84caba3519a22660b4ae3e7a
+from DataStructures.Map import map_linear_probing as lp
+from DataStructures.List import single_linked_list as slt
 
 
 data_dir = os.path.dirname(os.path.realpath('__file__')) + '/Data/'
@@ -60,7 +56,6 @@ def new_logic():
 
     analyzer['crimes'] = al.new_list()
     # TODO completar la creación del mapa ordenado
-    analyzer['dateIndex'] = bst.new_map()
     analyzer['dateIndex'] = bst.new_map()
     
     return analyzer
@@ -108,8 +103,6 @@ def update_date_index(map, crime):
         datentry = new_data_entry(crime)       
         bst.put(map, crimedate.date(), datentry)
         # TODO Realizar el caso en el que no se encuentra la fecha
-        datentry = new_data_entry(crime)
-        bst.put(map, crimedate.date(), datentry)
     else:
         datentry = entry
     add_date_index(datentry, crime)
@@ -129,21 +122,12 @@ def add_date_index(datentry, crime):
     offentry = lp.get(offenseIndex, crime['OFFENSE_CODE_GROUP'])
     if (offentry is None):
         # TODO Realice el caso en el que no se encuentre el tipo de crimen
-<<<<<<< HEAD
-        offentry = new_offense_entry(crime['OFFENSE_CODE_GROUP'], crime)
-        lp.put(offenseIndex, crime['OFFENSE_CODE_GROUP'], offentry)
-    else:
-        # TODO Realice el caso en el que se encuentre el tipo de crimen
-        pass
-    al.add_last(offentry['lstoffenses'], crime)
-=======
         entry = new_offense_entry(crime['OFFENSE_CODE_GROUP'], crime)
         al.add_last(entry['lstoffenses'], crime)
         lp.put(offenseIndex, crime['OFFENSE_CODE_GROUP'], entry)
     else:
         # TODO Realice el caso en el que se encuentre el tipo de crimen
         al.add_last(offentry['lstoffenses'], crime)
->>>>>>> 678782149b5c0d3e84caba3519a22660b4ae3e7a
     return datentry
 
 
@@ -195,11 +179,7 @@ def index_size(analyzer):
     Numero de elementos en el indice
     """
     # TODO Completar la función de consulta de tamaño del árbol
-<<<<<<< HEAD
-    return bst.size(analyzer['dateIndex']['root'])
-=======
     return bst.size(analyzer['dateIndex'])
->>>>>>> 678782149b5c0d3e84caba3519a22660b4ae3e7a
 
 
 def min_key(analyzer):
@@ -207,11 +187,7 @@ def min_key(analyzer):
     Llave mas pequena
     """
     # TODO Completar la función de consulta de la llave mínima
-<<<<<<< HEAD
     return bst.get_min(analyzer['dateIndex'])
-=======
-    return bst.min_key(analyzer['dateIndex'])
->>>>>>> 678782149b5c0d3e84caba3519a22660b4ae3e7a
 
 
 def max_key(analyzer):
@@ -219,11 +195,7 @@ def max_key(analyzer):
     Llave mas grande
     """
     # TODO Completar la función de consulta de la llave máxima
-<<<<<<< HEAD
     return bst.get_max(analyzer['dateIndex'])
-=======
-    return bst.max_key(analyzer['dateIndex'])
->>>>>>> 678782149b5c0d3e84caba3519a22660b4ae3e7a
 
 
 def get_crimes_by_range(analyzer, initialDate, finalDate):
@@ -231,18 +203,18 @@ def get_crimes_by_range(analyzer, initialDate, finalDate):
     Retorna el numero de crimenes en un rago de fechas.
     """
     # TODO Completar la función de consulta de crimenes por rango de fechas
-<<<<<<< HEAD
-    initial = datetime.datetime.strptime(initialDate, '%Y-%m-%d').date()
-    final = datetime.datetime.strptime(finalDate, '%Y-%m-%d').date()
-    return bst.keys(analyzer['dateIndex'], initial, final)
-=======
-    lst= bst.values(bst.keys(analyzer['dateIndex'], initialDate, finalDate), analyzer['dateIndex'])
-    total=0
-    for crime in range(1, al.size(lst)+1):
-        datentry= al.get_element(lst, crime)
-        total+= al.size(datentry['lstcrimes'])
+    initialDate = datetime.datetime.strptime(initialDate.strip(), '%Y-%m-%d').date()
+    finalDate = datetime.datetime.strptime(finalDate.strip(), '%Y-%m-%d').date()
+    lst = bst.keys(analyzer['dateIndex'], initialDate, finalDate)
+    total = 0
+    node = lst['first']
+    while node is not None:
+        date = node['info']
+        datentry = bst.get(analyzer['dateIndex'], date)
+        total += al.size(datentry['lstcrimes'])
+        node = node['next']
+
     return total
->>>>>>> 678782149b5c0d3e84caba3519a22660b4ae3e7a
 
 
 def get_crimes_by_range_code(analyzer, initialDate, offensecode):
@@ -251,21 +223,12 @@ def get_crimes_by_range_code(analyzer, initialDate, offensecode):
     de un tipo especifico.
     """
     # TODO Completar la función de consulta de crimenes por tipo de crimen en una fecha
-<<<<<<< HEAD
-    date_key = datetime.datetime.strptime(initialDate, '%Y-%m-%d').date()
-    entry = bst.get(analyzer['dateIndex'], date_key)
-    if entry is not None:
-        offentry = lp.get(entry['offenseIndex'], offensecode)
-        if offentry is not None:
-            return offentry['lstoffenses']
-    return None
-=======
-    entry= bst.get(analyzer['dateIndex'], initialDate)
-    if entry is not None:
+    initialDate = datetime.datetime.strptime(initialDate.strip(), '%Y-%m-%d').date()
+    entry = bst.get(analyzer['dateIndex'], initialDate)
+    if entry is None:
         return 0 
     offentry = lp.get(entry['offenseIndex'], offensecode)
     if offentry is None:
         return 0
     return al.size(offentry['lstoffenses'])
 
->>>>>>> 678782149b5c0d3e84caba3519a22660b4ae3e7a
