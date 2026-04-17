@@ -61,6 +61,7 @@ def new_logic():
     analyzer['crimes'] = al.new_list()
     # TODO completar la creación del mapa ordenado
     analyzer['dateIndex'] = bst.new_map()
+    analyzer['dateIndex'] = bst.new_map()
     
     return analyzer
 
