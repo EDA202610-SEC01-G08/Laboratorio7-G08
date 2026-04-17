@@ -84,7 +84,7 @@ def main():
             print("\nCargando información de crimenes ....")
             logic.load_data(control, crimefile)
             print('Crimenes cargados: ' + str(logic.crimes_size(control)))
-            print('Altura del arbol: ' + str(logic.index_height(control)))
+            print('Altura del arbol: ' + str(logic.index_height(control)-1))
             print('Elementos en el arbol: ' + str(logic.index_size(control)))
             print('Menor Llave: ' + str(logic.min_key(control)))
             print('Mayor Llave: ' + str(logic.max_key(control)))
